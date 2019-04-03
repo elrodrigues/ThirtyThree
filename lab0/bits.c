@@ -144,11 +144,9 @@ NOTES:
  *   Rating: 3
  */
 int ezThreeFourths(int x) {
-  /* left-shift 1 to get times 2, then add x to get times 3,
-    then right-shift 2 to simulate dividing by 4*/
-  int num;
-  int sgn;
-  num = (x << 1) + x;
-  sgn = num >> 31;
+  /*num = numerator, sgn = sign. The expression uses bias to correct
+  division of negative integers.*/
+  int num = (x << 1) + x;
+  int sgn = num >> 31;
   return (num + (sgn & 3)) >> 2;
 }
