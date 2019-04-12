@@ -1,0 +1,21 @@
+2.71:
+  a) The function does not produce the correct output if the extracted byte is a negative integer since it does not sign extend. Instead, we get a representation of the 8 bits followed by 0s.
+
+  b) Here is a possible implementation that uses only shifts and one subtraction:
+  int xbyte(packed_t word, int bytenum)
+  {
+    int res = word >> (bytenum << 3);
+    return (res << 24) >> 24 - 0;
+  }
+
+2.82
+  A) If x = T_min and y = 0, then x < y, but -x = x and -y = y, so -x < -y - the two expressions are not equal.
+
+  B) It is always 1. (x + y) << 4 is equal to (x + y) * 16, and adding y gives us 17*y and subtracting x gives us 15*y.
+
+  C) If x = T_min and y = T_min, then ~x = ~y = T_min and ~x + ~y + 1 = 1. But, ~(x+y) = ~0 = -1. So, the two expressions are not equal.
+
+  D) It is always 1. The unsigned and signed subtraction both use two's complement to subtract the representation of the bytes, so the difference should be equal for both.
+
+  E) It is always 1. ((x >> 2) << 2) <= x is true for both non-negative and negative integers. For non-negative integers, the integer on the left-hand-side has 0s on its first and second bits (so "rounding" towards 0) while the original x may or may not have 0s there - the remaining 30 bits are the same.
+  For negative integers, the integer on the left-hand-side has 0s on its first and second bits (so "rounding" towards T_min) while the original may or may not have 0s there.
