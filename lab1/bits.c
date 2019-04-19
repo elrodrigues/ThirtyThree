@@ -139,6 +139,8 @@ NOTES:
  *   Rating: 4
  */
 int bitParity(int x) {
+ /* Here, we accumulate and xor all the bits at 
+ * the least significant bit, then return the LSB*/
   x = x ^ (x >> 16);
   x = x ^ (x >> 8);
   x = x ^ (x >> 4);
@@ -155,6 +157,9 @@ int bitParity(int x) {
  *   Rating: 3 
  */
 int rotateRight(int x, int n) {
+/* A mask is made to fetch the affected bits.
+ * Then, x is shifted right followed by inserting the mask back.
+ */
  int mask = ~(((~0) >> n) << n);
  int diff = (32 + (~n));
  int removeSgn = 0;
@@ -174,6 +179,10 @@ int rotateRight(int x, int n) {
  *  Rating: 2
  */
 int byteSwap(int x, int n, int m) {
+/* This uses similar ideas from rightShift.
+ * Two masks are made that hold the selected bytes.
+ * The masks swap positions and are reinserted into adjX.
+*/
   int corN = n << 3;
   int corM = m << 3;
   int byte1 = x & (0xFF << corN);
@@ -201,6 +210,7 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 1
  */
 int fitsShort(int x) {
+ // Checks if x can be reduces to 16 bits with sign preserved.
   return !(((x << 16) >> 16) ^ x);
 }
 /* 
@@ -211,6 +221,10 @@ int fitsShort(int x) {
  *   Rating: 1
  */
 int bitAnd(int x, int y) {
+ /* De-Morgans law.
+ *  Also, this is how you would construct an AND gate in
+ *  Minecraft.
+ */
   return ~((~x) | (~y));
 }
 /* 
@@ -222,6 +236,10 @@ int bitAnd(int x, int y) {
  *   Rating: 3
  */
 int subOK(int x, int y) {
+ /* Following conditions are checked:
+ *  Is x == y? Do they have the same signs?
+ *  If not, then is there overflow?
+ */
  int diff = x + ((~y) + 1);
  int sx = (x >> 31);
  int sy = (y >> 31);
@@ -236,6 +254,10 @@ int subOK(int x, int y) {
  *   Rating: 3
  */
 int isGreater(int x, int y) {
+ /* Similar logic to subOK. These conditions are checked:
+ *  Is x positive and y negative?
+ *  If not, are they not equal and the difference is positive?
+ */
  int sx = (x >> 31);
  int sy = (y >> 31);
  int diff = x + ((~y) + 1);
@@ -253,6 +275,8 @@ int isGreater(int x, int y) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
+/* Similar logic to fitShort.
+ */
  int lSteps = 33 + ~n;
  int rSteps = n + ~0;
  int leftOver = (((x >> rSteps) >> 1) << rSteps) << 1;
@@ -267,6 +291,8 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int negate(int x) {
+ /* Two's complement shortcut.
+  */
   return ~x + 1;
 }
 /*
@@ -277,6 +303,10 @@ int negate(int x) {
  *   Rating: 1
  */
 int isTmax(int x) {
+/* This checks if the complement of x is Tmin.
+ * The first part checks if its negation is itself.
+ * The second part (!inv) is to handle x = 0.
+ */
  int inv = ~x; 
  int comp = x + 1;
  return !((inv ^ comp) + !inv);
