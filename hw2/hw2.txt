@@ -1,0 +1,7 @@
+HW2
+Name: Elvis Rodrigues; UID: 804997981
+
+So, magic8ball[3][4] requires us to traverse to address &magic8ball + (64 * 3) + (4*3) = 0x7fffffffe000 + 0x0000000000e0 = 0x7fffffffe0e0.
+
+At that location, the bytes are: 0x57	0x72	0x6f	0x6e	0x67	0x00	0x00	0x00
+This translates to "Wrong".
