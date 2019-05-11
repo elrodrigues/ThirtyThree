@@ -1,0 +1,30 @@
+Name: Elvis Rodrigues
+UID: 804997981
+Section: 1F
+
+void psum3_3(float a[], float p[], long n)
+{
+  long i, j, k;
+  float v1, v2, v3;
+  v1 = v2 = v3 = 0;
+  float lval;
+  lval = p[0] = a[0];
+  for (i = 1; i < n - 2; i+=3){
+    j = i + 1;
+    k = i + 2;
+    v1 += a[i];
+    p[i] = v1 + (v2 + v3);
+    v2 += a[j];
+    p[j] = v1 + (v2 + v3);
+    v3 += a[k];
+    p[k] = v1 + (v2 + v3);
+  }
+  lval = v1 + v2 + v3;
+  for(; i < n; i++)
+  {
+    lval += a[i];
+     p[i] = lval;
+  }
+}
+
+This version beats the latency limits through somewhat independent accumulators. However, we cannot surpass throughput limits without data-level parallelism.
