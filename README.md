@@ -1,2 +1,2 @@
-# CS33
-Private repository for CS33 labs and hw
+# CS ThirtyThree
+Private repository for CS Thirty-Three labs and hw, Spring 19
